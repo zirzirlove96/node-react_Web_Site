@@ -1,5 +1,6 @@
 import React,{useState} from "react";
 import Menu from "../component/Menu.jsx";
+import Input from "../component/Input.jsx";
 
 function Login()
 {
@@ -21,12 +22,15 @@ function Login()
     return (
         <>
             <Menu></Menu>
-            <div>
-                <div></div>
-                <span>로그인</span><br/><br/>
-                아이디 : <input type="text" name="id" onChange={textHandler} placeholder="ID를 입력해주세요."></input><br/>
-                비밀번호 : <input type="password" name="pw" onChange={textHandler} placeholder="PASSWORD를 입력해주세요."></input><br/>
-                <button>로그인</button>
+            <div class="outer-div2">
+                <div class="inner-div2"> 
+                    <form>
+                        <span id="title">로그인</span><br/><br/>
+                        <span id="title2">아이디 : </span><input type="text" name="id" onChange={textHandler} placeholder="ID를 입력해주세요."></input><br/><br/>
+                        <span id="title2">비밀번호 : </span><input type="password" name="pw" onChange={textHandler} placeholder="PASSWORD를 입력해주세요."></input><br/><br/>
+                        <button>로그인</button>
+                    </form>
+                </div>
             </div>
         </>
     )

@@ -1,0 +1,42 @@
+.outer-div2 {
+    display: flex;
+    justify-content: center;
+    height: 550px;
+    background-color: #f37262;
+
+
+    > .inner-div2 {
+        border: 2px solid white;
+        background-color: white;
+        border-radius: 10px;
+        padding: 0px;
+        width: 800px;
+        height: 500px;
+        margin: auto;
+
+        > form {
+            margin-left: 60px;
+            margin-right: 60px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            height: 400px;
+
+            > #title {
+                font-size: 50px;
+                margin-left: 250px;
+                font-family: "Montserrat", sans-serif;
+                font-weight: bold;
+                color: black;
+            }
+
+            > #title2 {
+                font-size: 35px;
+                margin-left: 100px;
+                font-family: "Montserrat", sans-serif;
+                font-weight: bold;
+                color: black;
+            }
+        }
+
+    }
+}

@@ -1,6 +1,9 @@
 import React,{useState} from "react";
 import axios from "axios";
+import styled from "styled-components";
 import Menu from "../component/Menu.jsx";
+import Button from "../component/Button.jsx";
+import Input from "../component/Input";
 
 function SignUp()
 {
@@ -80,16 +83,17 @@ function SignUp()
         {page === false ? (
         <div class="outer-div">
             <div class="inner-div">                
-                <form id="form">
-                <span>회원가입</span>
+                <form>
+                <span id="title">회원가입</span>
                     <br/><br/><br/>
-                    이름 : <input type="text" class="name" onChange={textHandler} placeholder="이름를 입력하세요."></input><br/>
-                    주민번호 : <input type="text" class="identity" onChange={textHandler} placeholder="주민번호를 입력하세요."></input><br/>
-                    아이디 : <input type="text" class="id" onChange={textHandler} placeholder="아이디를 입력하세요."></input><br/>
-                    비밀번호 : <input type="password" class="pw" onChange={textHandler} placeholder="비밀번호를 입력하세요."></input><br/>
-                    주소 : <input type="text" class="address" onChange={textHandler} placeholder="주소를 입력하세요."></input><br/>
-                    핸드폰 번호 : <input type="text" class="phoneNumber" onChange={textHandler} placeholder="핸드폰 번호를 입력하세요."></input><br/>
-                    <button name="SignUp" onClick={signUpProcess} value="SingUp">회원가입하기</button>
+                    <span id="title2">이름 : </span><INPUT_STYLED type="text" class="name" onChange={textHandler} placeholder="이름를 입력하세요."></INPUT_STYLED><br/><br/>
+                    <span id="title2">주민번호 : </span><INPUT_STYLED2 type="text" class="identity" onChange={textHandler} placeholder="주민번호를 입력하세요."></INPUT_STYLED2><br/><br/>
+                    <span id="title2">아이디 : </span><INPUT_STYLED type="text" class="id" onChange={textHandler} placeholder="아이디를 입력하세요."></INPUT_STYLED><br/><br/>
+                    <span id="title2">비밀번호 : </span><INPUT_STYLED type="password" class="pw" onChange={textHandler} placeholder="비밀번호를 입력하세요."></INPUT_STYLED><br/><br/>
+                    <span id="title2">주소 : </span><INPUT_STYLED3 type="text" class="address" onChange={textHandler} placeholder="주소를 입력하세요."></INPUT_STYLED3><br/><br/>
+                    <span id="title2">핸드폰 번호 : </span><INPUT_STYLED type="text" class="phoneNumber" onChange={textHandler} placeholder="핸드폰 번호를 입력하세요."></INPUT_STYLED><br/><br/>
+                    <br/>
+                    <BUTTON_STYLED name="SignUp" onClick={signUpProcess} value="SingUp">회원가입하기</BUTTON_STYLED>
                 </form>
             </div>
         </div>
@@ -105,5 +109,29 @@ function SignUp()
     );
 
 }
+
+const BUTTON_STYLED = styled(Button)`
+    width: 150px;
+    margin-left: 290px;
+    position: absolute;
+`;
+
+const INPUT_STYLED = styled(Input)`
+    width: 200px;
+    position: absolute;
+    margin-left: 20px;
+`;
+
+const INPUT_STYLED2 = styled(Input)`
+    width: 250px;
+    position: absolute;
+    margin-left: 20px;
+`;
+
+const INPUT_STYLED3 = styled(Input)`
+    width: 450px;
+    position: absolute;
+    margin-left: 20px;
+`;
 
 export default SignUp;
