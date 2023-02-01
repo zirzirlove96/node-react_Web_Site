@@ -10,34 +10,35 @@ function SignUp()
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
     const [name, setName] = useState('');
-    const [identity, setIdentity] = useState('');
+    const [securityNum, setsecurityNum] = useState('');
     const [address, setAddress] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
 
     let page = false;
 
     const textHandler = (e) => {
-        if(e.target.classList.value === "id")
+        console.log(e.target);
+        if(e.target.classList.value.includes("id"))
         {
             setId(e.target.value);
         }
-        else if(e.target.classList.value === "pw")
+        else if(e.target.classList.value.includes("pw"))
         {
             setPw(e.target.value);            
         }
-        else if(e.target.classList.value === "name")
+        else if(e.target.classList.value.includes("name"))
         {
             setName(e.target.value);            
         }
-        else if(e.target.classList.value === "identity")
+        else if(e.target.classList.value.includes("securityNum"))
         {
-            setIdentity(e.target.value);            
+            setsecurityNum(e.target.value);            
         }
-        else if(e.target.classList.value === "address")
+        else if(e.target.classList.value.includes("address"))
         {
             setAddress(e.target.value);            
         }
-        else if(e.target.classList.value === "phoneNumber")
+        else if(e.target.classList.value.includes("phoneNumber"))
         {
             setPhoneNumber(e.target.value);            
         }
@@ -66,7 +67,7 @@ function SignUp()
             id : id,
             pw : pw,
             name : name,
-            identity: identity,
+            identity: securityNum,
             address: address,
             phoneNumber: phoneNumber
         });
@@ -74,6 +75,9 @@ function SignUp()
         console.log(res);
         if(res.status === "200"){
             page = true;
+        }
+        else{
+            alert(res.data);
         }
     }
 
@@ -86,12 +90,12 @@ function SignUp()
                 <form>
                 <span id="title">회원가입</span>
                     <br/><br/><br/>
-                    <span id="title2">이름 : </span><INPUT_STYLED type="text" class="name" onChange={textHandler} placeholder="이름를 입력하세요."></INPUT_STYLED><br/><br/>
-                    <span id="title2">주민번호 : </span><INPUT_STYLED2 type="text" class="identity" onChange={textHandler} placeholder="주민번호를 입력하세요."></INPUT_STYLED2><br/><br/>
-                    <span id="title2">아이디 : </span><INPUT_STYLED type="text" class="id" onChange={textHandler} placeholder="아이디를 입력하세요."></INPUT_STYLED><br/><br/>
-                    <span id="title2">비밀번호 : </span><INPUT_STYLED type="password" class="pw" onChange={textHandler} placeholder="비밀번호를 입력하세요."></INPUT_STYLED><br/><br/>
-                    <span id="title2">주소 : </span><INPUT_STYLED3 type="text" class="address" onChange={textHandler} placeholder="주소를 입력하세요."></INPUT_STYLED3><br/><br/>
-                    <span id="title2">핸드폰 번호 : </span><INPUT_STYLED type="text" class="phoneNumber" onChange={textHandler} placeholder="핸드폰 번호를 입력하세요."></INPUT_STYLED><br/><br/>
+                    <span id="title2">이름 : </span><INPUT_STYLED type="text" className="name" onChange={textHandler} placeholder="이름를 입력하세요."></INPUT_STYLED><br/><br/>
+                    <span id="title2">주민번호 : </span><INPUT_STYLED2 type="text" className="securityNum" onChange={textHandler} placeholder="주민번호를 입력하세요."></INPUT_STYLED2><br/><br/>
+                    <span id="title2">아이디 : </span><INPUT_STYLED type="text" className="id" onChange={textHandler} placeholder="아이디를 입력하세요."></INPUT_STYLED><br/><br/>
+                    <span id="title2">비밀번호 : </span><INPUT_STYLED type="password" className="pw" onChange={textHandler} placeholder="비밀번호를 입력하세요."></INPUT_STYLED><br/><br/>
+                    <span id="title2">주소 : </span><INPUT_STYLED3 type="text" className="address" onChange={textHandler} placeholder="주소를 입력하세요."></INPUT_STYLED3><br/><br/>
+                    <span id="title2">핸드폰 번호 : </span><INPUT_STYLED type="text" className="phoneNumber" onChange={textHandler} placeholder="핸드폰 번호를 입력하세요."></INPUT_STYLED><br/><br/>
                     <br/>
                     <BUTTON_STYLED name="SignUp" onClick={signUpProcess} value="SingUp">회원가입하기</BUTTON_STYLED>
                 </form>
