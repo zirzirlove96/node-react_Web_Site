@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const port = "5050";
 const cors = require('cors');
+require('dotent').config();
 
 let corsOption = {
     origin: "http://localhost:3000",
@@ -17,11 +18,11 @@ app.use(express.urlencoded({extended : true})) //body-parser 역할
 
 const DBConnection = 
 {
-    host: "127.0.0.1",
-    port: "3307",
-    user: "root",
-    password : "1234",
-    database: "mysql"
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password : process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
 };
 
 var connection = mysql.createConnection(DBConnection);
@@ -66,29 +67,9 @@ app.post('/api/Login', async (req, res)=>{
 
     const query = `select password from account where id='${req.body.id}'`;
     await connection.query(query, function(err, topics) {
-       // console.log(topics[0].password);
-        /*const key2 = crypto.scryptSync(key, 'salt', 24);
-        const iv = crypto.randomBytes();
-        var cipher = crypto.createCipheriv('aes-192-cbc', key2, iv);
-        //aes-192-cbc 알고리즘 형식 , key는 공개키
-        //공개키로 암호화 및 복호화 가능
-        cipher.update(topics[0].password, 'utf8', 'base64');             // 인코딩 방식에 따라 암호화
-        cipher += cipher.final('base64');        // 암호화된 결과 값*/
-
-        const algorithm = 'aes-256-cbc';
-        const key = 'abcdefghijklmnopqrstuvwxyz123456';
-        const iv = '1234567890123456';
-        const cipher = crypto.createCipheriv(algorithm, key, iv);
-        let result = cipher.update(req.body.pw, 'utf8', 'base64');
-        result += cipher.final('base64');
-        console.log('암호화 결과: ', result);
-
-        const decipher = crypto.createDecipheriv(algorithm, key, iv);
-        let result2 = decipher.update(result, 'base64', 'utf8');
-        result2 += decipher.final('utf8');
-        console.log('복호화 결과: ', result2);
-        
-        const result_pw = bcrypt.compareSync(result2, topics[0].password);
+        console.log(topics[0].password);
+        console.log(req.body.pw);
+        const result_pw = bcrypt.compareSync(req.body.pw, topics[0].password);
         console.log(result_pw);
         if(result_pw){
             res.send("로그인 성공!");

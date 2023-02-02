@@ -28,12 +28,16 @@ function Login()
             id : id,
             pw : pw
         });
-
-        if(res.status === "200")
+        console.log(res.status);
+        if(res.status === 200)
         {
             if(res.data.includes("실패"))
             {
                 alert("아이디와 비밀번호가 틀렸습니다.");
+            }
+            else
+            {
+                alert("로그인 완료");
             }
         }
     }
