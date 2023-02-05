@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import {Link} from "react-router-dom";  //Link는 특정 주소로 이동해주는 태그
 import styled from "styled-components";
 import React from "react";
 

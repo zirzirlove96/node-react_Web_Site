@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Menu from "../component/Menu.jsx";
 import Button from "../component/Button.jsx";
 import Input from "../component/Input";
+import crypto from 'crypto-js';
 
 function SignUp()
 {
@@ -13,6 +14,7 @@ function SignUp()
     const [securityNum, setsecurityNum] = useState('');
     const [address, setAddress] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const secret_key = "Qsj23missdaxX2BjyskV6bs&adada6ds";
 
     let page = false;
 
@@ -24,7 +26,8 @@ function SignUp()
         }
         else if(e.target.classList.value.includes("pw"))
         {
-            setPw(e.target.value);            
+            const encrypted_pw = crypto.AES.encrypt(e.target.value, secret_key).toString();
+            setPw(encrypted_pw);            
         }
         else if(e.target.classList.value.includes("name"))
         {

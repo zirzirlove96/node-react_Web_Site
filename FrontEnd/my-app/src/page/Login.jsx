@@ -4,12 +4,15 @@ import Menu from "../component/Menu.jsx";
 import Input from "../component/Input.jsx";
 import Button from "../component/Button.jsx";
 import axios from "axios";
+import crypto from 'crypto-js';
+import { useNavigate } from "react-router-dom"; //react-router-dom은 특정 행동을 했을 때 해당 주소로 이동
 
 function Login()
 {
-    const [login, setLogin] = useState('');
+    const navigate = useNavigate();
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
+    const secret_key = "Qsj23missdaxX2BjyskV6bs&adada6ds";
 
     const textHandler = (e) => {
         if(e.target.classList.value.includes("id"))
@@ -24,20 +27,21 @@ function Login()
 
     const LoginProcess = async(e) => {
         e.preventDefault();
+        const encrypt_pw = crypto.AES.encrypt(pw, secret_key).toString();
         const res = await axios.post("http://localhost:5050/api/Login", {
             id : id,
-            pw : pw
+            pw : encrypt_pw
         });
-        console.log(res.status);
         if(res.status === 200)
         {
             if(res.data.includes("실패"))
             {
-                alert("아이디와 비밀번호가 틀렸습니다.");
+                alert("아이디 비밀번호를 다시 한번 확인해주세요.");
             }
             else
             {
                 alert("로그인 완료");
+                navigate("/");
             }
         }
     }
