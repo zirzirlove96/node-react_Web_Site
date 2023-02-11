@@ -6,6 +6,7 @@ import Button from "../component/Button.jsx";
 import axios from "axios";
 import crypto from 'crypto-js';
 import { useNavigate } from "react-router-dom"; //react-router-dom은 특정 행동을 했을 때 해당 주소로 이동
+import kakao_login from "../style/kakao_login_large_narrow.png";
 
 function Login()
 {
@@ -46,6 +47,13 @@ function Login()
         }
     }
 
+    const Kakao_LoginProcess = async(e) => {
+        alert("테스트1");
+        const res = await axios.post("/api/Kako_Login", (req, res)=>{
+            
+        });
+    }
+
     return (
         <>
             <Menu></Menu>
@@ -57,6 +65,7 @@ function Login()
                         <span id="title2">비밀번호 : </span><Input type="password" className="pw" onChange={textHandler} placeholder="PASSWORD를 입력해주세요."></Input><br/><br/>
                         <br/>
                         <BUTTON_STYLED name="Login" onClick={LoginProcess} value="Login"></BUTTON_STYLED>
+                        <img src={kakao_login} onClick={Kakao_LoginProcess}></img>
                     </form>
                 </div>
             </div>

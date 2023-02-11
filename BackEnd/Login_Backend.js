@@ -41,12 +41,12 @@ app.post('/api/SignUp', async (req, res)=>{
             res.send('아이디가 동일한 회원정보가 있습니다. 다른 아이디로 설정해주세요.');
         }
     });
-    //단방향 암호화 bcrypt
-    //bcrypt 같은 경우 SHA 에 비해 공격에 강한 암호화 방식이다. hash()=> 동기 hashSync()=> 비동기
-    //hash(password, salt) => salt 암호화하는데 몇번 할 것 인지
     const decode = crypto.AES.decrypt(req.body.pw, "Qsj23missdaxX2BjyskV6bs&adada6ds");   
     const decrypted = decode.toString(crypto.enc.Utf8);
     console.log(decrypted);
+    //단방향 암호화 bcrypt
+    //bcrypt 같은 경우 SHA 에 비해 공격에 강한 암호화 방식이다. hash()=> 동기 hashSync()=> 비동기
+    //hash(password, salt) => salt 암호화하는데 몇번 할 것 인지
     const encryptedPassword = await bcrypt.hashSync(decrypted, 10);
     const query = `insert into account (id, password, name, securityNum, address, phoneNumber) values ('${req.body.id}', '${encryptedPassword}', '${req.body.name}', '${req.body.identity}', '${req.body.address}', '${req.body.phoneNumber}')`;
     await connection.query(query, function(err, topics) { 
@@ -69,6 +69,7 @@ app.post('/api/Login', async (req, res)=>{
     const pw = req.body.pw;
     //const decode = crypto.createDecipheriv("aes-256-cbc", "Qsj23missdaxX2BjyskV6bs#adada6ds", Buffer.alloc(16,0));
     const secret_key = process.env.SECRET_KEY;
+    //crypto 복호화
     const decode = crypto.AES.decrypt(pw, "Qsj23missdaxX2BjyskV6bs&adada6ds");   
     const decrypted = decode.toString(crypto.enc.Utf8);
     const query = `select password from account where id='${req.body.id}'`;
@@ -84,6 +85,17 @@ app.post('/api/Login', async (req, res)=>{
     });
     
 });
+
+//카카오 로그인
+app.post("/api/Kako_Login", async(req, res)=>{
+    const url = 'https://kauth.kakao.com/oauth/authorize?client_id='+
+                process.env.JS_AUTHKEY +
+                '&redirect_uri='+
+                process.env.REST_AUTHKEY+
+                '&response_type=code&'+
+                'scope=account_email birthday gender';
+    
+})
 
 //DB 연동 확인
 connection.connect(function(err) {
