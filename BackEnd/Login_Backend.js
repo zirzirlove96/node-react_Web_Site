@@ -6,6 +6,7 @@ const crypto = require('crypto-js');
 const port = "5050";
 const cors = require('cors');
 require('dotenv').config();
+const storage = require('node-sessionstorage')
 
 let corsOption = {
     origin: "http://localhost:3000",
@@ -86,16 +87,26 @@ app.post('/api/Login', async (req, res)=>{
     
 });
 
-//카카오 로그인
-app.post("/api/Kako_Login", async(req, res)=>{
-    const url = 'https://kauth.kakao.com/oauth/authorize?client_id='+
-                process.env.JS_AUTHKEY +
-                '&redirect_uri='+
-                process.env.REST_AUTHKEY+
-                '&response_type=code&'+
-                'scope=account_email birthday gender';
-    
-})
+//카카오 로그인 통신
+app.post('/api/Kakao_Login', async (req, res)=>{
+    const access_token = req.body.access_token;
+    const refresh_token = req.body.refresh_token;
+
+    //로그인을 이미 했을 경우
+    if(storage.getItem('access_token') !== undefined)
+    {
+        console.log(storage.getItem('access_token'));
+        
+    }
+    else
+    {
+        storage.setItem('access_token', access_token);
+        storage.setItem('refresh_token', refresh_token);
+        res.send('로그인 성공');
+    }
+  
+});
+
 
 //DB 연동 확인
 connection.connect(function(err) {
