@@ -8,12 +8,14 @@ import crypto from 'crypto-js';
 import { useNavigate } from "react-router-dom"; //react-router-dom은 특정 행동을 했을 때 해당 주소로 이동
 import kakao_login from "../style/kakao_login_large_narrow.png";
 
+
 function Login()
 {
     const navigate = useNavigate();
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
     const secret_key = "Qsj23missdaxX2BjyskV6bs&adada6ds";
+
 
     const textHandler = (e) => {
         if(e.target.classList.value.includes("id"))
@@ -28,6 +30,7 @@ function Login()
 
     const LoginProcess = async(e) => {
         e.preventDefault();
+        
         const encrypt_pw = crypto.AES.encrypt(pw, secret_key).toString();
         const res = await axios.post("http://localhost:5050/api/Login", {
             id : id,
@@ -47,11 +50,19 @@ function Login()
         }
     }
 
+    //카카오로그인
     const Kakao_LoginProcess = async(e) => {
-        alert("테스트1");
-        const res = await axios.post("/api/Kako_Login", (req, res)=>{
-            
-        });
+
+        const url = 'https://kauth.kakao.com/oauth/authorize?client_id='+
+                    process.env.REACT_APP_REST_AUTHAPI +
+                    '&redirect_uri='+
+                    process.env.REACT_APP_REDIRECT_URI+
+                    '&response_type=code&'+
+                    'scope=account_email,birthday,gender&'+
+                    'prompt=login';
+        
+        //페이지로 이동
+        window.location.href = url;        
     }
 
     return (
