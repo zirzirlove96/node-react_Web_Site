@@ -23,7 +23,6 @@ function Kakao_Login()
     .then(async function(res) {
         if(res.status === 200)
         {
-            console.log(res);
             const res2 = await axios.post('http://localhost:5050/api/Kakao_Login', {
                 access_token: res.data.access_token,
                 refresh_token: res.data.refresh_token

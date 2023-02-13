@@ -36,7 +36,7 @@ background: #f9f9f9;
 
     >.li1
     {
-        width: 25%;
+        width: 50%;
     }
     >.li2 
     {
@@ -47,22 +47,35 @@ background: #f9f9f9;
 `;
 
 const Menu = () => {
-
+    const sessionStorage = window.sessionStorage;
     return (
         <>
+        {   sessionStorage.getItem('account_token') !== null ? (
             <MenuStyled>
                 <ul>
-                    <li class="li2">
-                        <Link to="/SignUp" className="link">회원가입</Link>
+                    <li class="li1">
+                        <Link to="/Logout" className="link">로그아웃</Link>
                     </li>
-                    <li class="li2">
-                        <Link to="/Login" className="link">로그인</Link>
-                    </li>
-                    <li class="li2">
+                    <li class="li1">
                         <Link to="/" className="link">홈화면</Link>
                     </li>
                 </ul>
-            </MenuStyled>
+            </MenuStyled> ) : (
+                        <MenuStyled>
+                            <ul>
+                                <li class="li2">
+                                    <Link to="/SignUp" className="link">회원가입</Link>
+                                </li>
+                                <li class="li2">
+                                    <Link to="/Login" className="link">로그인</Link>
+                                </li>
+                                <li class="li2">
+                                    <Link to="/" className="link">홈화면</Link>
+                                </li>
+                            </ul>
+                        </MenuStyled>
+            )
+        }
         </>
     )
 }

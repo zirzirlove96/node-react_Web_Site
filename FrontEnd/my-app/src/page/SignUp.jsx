@@ -87,6 +87,7 @@ function SignUp()
     return(
         <>
         <Menu></Menu>
+        
         {page === false ? (
         <div class="outer-div">
             <div class="inner-div">                
