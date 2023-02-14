@@ -5,6 +5,7 @@ import Menu from "../component/Menu.jsx";
 import Button from "../component/Button.jsx";
 import Input from "../component/Input";
 import crypto from 'crypto-js';
+import { useNavigate, useLocation } from "react-router-dom";
 
 function SignUp()
 {
@@ -15,11 +16,17 @@ function SignUp()
     const [address, setAddress] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const secret_key = "Qsj23missdaxX2BjyskV6bs&adada6ds";
+    const navigation = useNavigate();
+    const location = useLocation();
+    
+    //useLocation을 통해 Kakao_Map에서 전달해준 값을 노출해주자!
+    //*기존 페이지에서 useNavigate로 값을 전달하고 새로운 페이지에서 useLocation에서 값을 받아온다.
+    //location.state.value
+    console.log(location.state.value);
 
     let page = false;
 
     const textHandler = (e) => {
-        console.log(e.target);
         if(e.target.classList.value.includes("id"))
         {
             setId(e.target.value);
@@ -47,23 +54,6 @@ function SignUp()
         }
     }
 
-    /*const signUpProcess = async(e) => {
-        const res = fetch('http://localhost:5050/api/SignUp', {
-            method: "POST",
-            body: JSON.stringify({
-                id: id,
-                pw: pw,
-                name: name,
-                identity: identity,
-                address: address,
-                phoneNumber: phoneNumber
-            })
-            .then(response => response.json()) 
-        });
-
-        console.log(res);
-    }*/
-
     const signUpProcess = async(event) => {
         event.preventDefault();
         const res = await axios.post('http://localhost:5050/api/SignUp', {
@@ -84,6 +74,11 @@ function SignUp()
         }
     }
 
+    const addressFind = (e) => {
+        //카카오 지도 찾기로 가기
+        navigation("/Kakao_Map");
+    }
+
     return(
         <>
         <Menu></Menu>
@@ -98,7 +93,7 @@ function SignUp()
                     <span id="title2">주민번호 : </span><INPUT_STYLED2 type="text" className="securityNum" onChange={textHandler} placeholder="주민번호를 입력하세요."></INPUT_STYLED2><br/><br/>
                     <span id="title2">아이디 : </span><INPUT_STYLED type="text" className="id" onChange={textHandler} placeholder="아이디를 입력하세요."></INPUT_STYLED><br/><br/>
                     <span id="title2">비밀번호 : </span><INPUT_STYLED type="password" className="pw" onChange={textHandler} placeholder="비밀번호를 입력하세요."></INPUT_STYLED><br/><br/>
-                    <span id="title2">주소 : </span><INPUT_STYLED3 type="text" className="address" onChange={textHandler} placeholder="주소를 입력하세요."></INPUT_STYLED3><br/><br/>
+                    <span id="title2">주소 : </span><INPUT_STYLED3 type="text" className="address" onChange={textHandler} placeholder="주소를 입력하세요." value={location.state.value}></INPUT_STYLED3><BUTTON_STYLED2 name='address_find' onClick={ addressFind } value="address">주소찾기</BUTTON_STYLED2><br/><br/>
                     <span id="title2">핸드폰 번호 : </span><INPUT_STYLED type="text" className="phoneNumber" onChange={textHandler} placeholder="핸드폰 번호를 입력하세요."></INPUT_STYLED><br/><br/>
                     <br/>
                     <BUTTON_STYLED name="SignUp" onClick={signUpProcess} value="SingUp">회원가입하기</BUTTON_STYLED>
@@ -121,6 +116,12 @@ function SignUp()
 const BUTTON_STYLED = styled(Button)`
     width: 150px;
     margin-left: 290px;
+    position: absolute;
+`;
+
+const BUTTON_STYLED2 = styled(Button)`
+    width: 100px;
+    margin-left: 500px;
     position: absolute;
 `;
 

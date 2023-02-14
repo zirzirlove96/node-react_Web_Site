@@ -76,7 +76,7 @@ function Login()
                         <span id="title2">비밀번호 : </span><Input type="password" className="pw" onChange={textHandler} placeholder="PASSWORD를 입력해주세요."></Input><br/><br/>
                         <br/>
                         <BUTTON_STYLED name="Login" onClick={LoginProcess} value="Login"></BUTTON_STYLED>
-                        <img src={kakao_login} onClick={Kakao_LoginProcess}></img>
+                        <IMG_STYLED src={kakao_login} onClick={Kakao_LoginProcess}></IMG_STYLED>
                     </form>
                 </div>
             </div>
@@ -88,6 +88,13 @@ function Login()
 const BUTTON_STYLED = styled(Button)`
     width: 150px;
     margin-left: 250px;
+    position: absolute;
+`;
+
+const IMG_STYLED = styled.img`
+    width: 200px;
+    margin-left: 230px;
+    margin-top: 80px;
     position: absolute;
 `;
 export default Login;
