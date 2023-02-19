@@ -4,7 +4,6 @@ import SignUp from "./page/SignUp";
 import MainPage from "./page/MainPage";
 import Kakao_Login from "./page/Kakao_Login";
 import Logout from "./page/Logout";
-import Kakao_Map from "./page/Kakao_Map";
 
 function Router()
 {
@@ -17,7 +16,6 @@ function Router()
                 <Route path="/SignUp" element={<SignUp/>}/>
                 <Route path="/Kakao_Login" element={<Kakao_Login/>}/>
                 <Route path="/Logout" element={<Logout/>}/>
-                <Route path="/Kakao_Map" element={<Kakao_Map/>}/>
             </Routes>
         </BrowserRouter>
         </>
