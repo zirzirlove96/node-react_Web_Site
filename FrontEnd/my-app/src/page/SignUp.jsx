@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from "react";
+import React,{useState} from "react";
 import axios from "axios";
 import styled from "styled-components";
 import Menu from "../component/Menu.jsx";
@@ -133,8 +133,8 @@ const BUTTON_STYLED = styled(Button)`
 `;
 
 const BUTTON_STYLED2 = styled(Button)`
-    width: 100px;
-    margin-left: 500px;
+    width: 150px;
+    margin-left: 400px;
     position: absolute;
 `;
 
@@ -151,7 +151,7 @@ const INPUT_STYLED2 = styled(Input)`
 `;
 
 const INPUT_STYLED3 = styled(Input)`
-    width: 450px;
+    width: 350px;
     position: absolute;
     margin-left: 20px;
 `;

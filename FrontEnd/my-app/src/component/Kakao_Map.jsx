@@ -24,6 +24,7 @@ const Kakao_Map = (props) => {
           fullAddr += extraAddr !== '' ? ` (${extraAddr})` : '';
         }
         
+        // 상위 컴포넌트로 값 전달
         props.propFunc(fullAddr);
         onToggleModal();
     };
