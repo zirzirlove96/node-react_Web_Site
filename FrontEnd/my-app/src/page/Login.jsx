@@ -8,7 +8,6 @@ import crypto from 'crypto-js';
 import { useNavigate } from "react-router-dom"; //react-router-dom은 특정 행동을 했을 때 해당 주소로 이동
 import kakao_login from "../style/kakao_login_large_narrow.png";
 
-
 function Login()
 {
     const navigate = useNavigate();
@@ -45,7 +44,10 @@ function Login()
             }
             else
             {
+                
                 alert("로그인 완료");
+                const Loginsession = window.sessionStorage;
+                Loginsession.setItem('account_token', res.data); //인증키
                 navigate("/");
             }
         }
@@ -77,7 +79,7 @@ function Login()
                         <span id="title2">비밀번호 : </span><Input type="password" className="pw" onChange={textHandler} placeholder="PASSWORD를 입력해주세요."></Input><br/><br/>
                         <br/>
                         <BUTTON_STYLED name="Login" onClick={LoginProcess} value="Login"></BUTTON_STYLED>
-                        <IMG_STYLED src={kakao_login} onClick={Kakao_LoginProcess}></IMG_STYLED>
+                        <IMG_STYLED src={kakao_login} onClick={Kakao_LoginProcess}></IMG_STYLED>                        
                     </form>
                 </div>
             </div>

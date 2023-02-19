@@ -53,7 +53,13 @@ function SignUp()
         }
         else if(e.target.classList.value.includes("phoneNumber"))
         {
-            setPhoneNumber(e.target.value);            
+            if(!e.target.value.match("^[0-9]")){
+                alert('숫자만 입력해주세요.');
+            }
+            else
+            {
+                setPhoneNumber(e.target.value);
+            }
         }
     }
 
@@ -100,7 +106,7 @@ function SignUp()
                 <span id="title">회원가입</span>
                     <br/><br/><br/>
                     <span id="title2">이름 : </span><INPUT_STYLED type="text" className="name" onChange={textHandler} placeholder="이름를 입력하세요."></INPUT_STYLED><br/><br/>
-                    <span id="title2">주민번호 : </span><INPUT_STYLED2 type="text" className="securityNum" onChange={textHandler} placeholder="주민번호를 입력하세요."></INPUT_STYLED2><br/><br/>
+                    <span id="title2">생년월일 : </span><INPUT_STYLED2 type="text" className="securityNum" onChange={textHandler} placeholder="주민번호를 입력하세요."></INPUT_STYLED2><br/><br/>
                     <span id="title2">아이디 : </span><INPUT_STYLED type="text" className="id" onChange={textHandler} placeholder="아이디를 입력하세요."></INPUT_STYLED><br/><br/>
                     <span id="title2">비밀번호 : </span><INPUT_STYLED type="password" className="pw" onChange={textHandler} placeholder="비밀번호를 입력하세요."></INPUT_STYLED><br/><br/>
                     <span id="title2">주소 : </span><INPUT_STYLED3 type="text" id="address" className="address" placeholder="주소를 입력하세요." value={address}></INPUT_STYLED3>

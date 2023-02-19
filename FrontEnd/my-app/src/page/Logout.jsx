@@ -7,10 +7,8 @@ function Logout()
     const navigation = useNavigate();
 
     sessionStorage.clear();
-    if(sessionStorage.getItem("access_token") === ""){
-        //세션 삭제
-        navigation("/");
-    }
+    //세션 삭제
+    window.location.href="/";
 }
 
 export default Logout;

@@ -29,7 +29,6 @@ const DBConnection =
 var connection = mysql.createConnection(DBConnection);
 
 app.post('/api/SignUp', async (req, res)=>{
-    console.log(req.body);
     if(req.body.id == "" || req.body.pw == "" || req.body.securityNum == "" || req.body.name == "" || req.body.address == "" || req.body.phoneNumber == "")
     {
        res.send('빈칸이 있습니다. 다시 입력해주세요.');
@@ -42,9 +41,10 @@ app.post('/api/SignUp', async (req, res)=>{
             res.send('아이디가 동일한 회원정보가 있습니다. 다른 아이디로 설정해주세요.');
         }
     });
-    const decode = crypto.AES.decrypt(req.body.pw, "Qsj23missdaxX2BjyskV6bs&adada6ds");   
+    const secret_key = process.env.SECRET_KEY;
+    const decode = crypto.AES.decrypt(req.body.pw, secret_key);   
     const decrypted = decode.toString(crypto.enc.Utf8);
-    console.log(decrypted);
+    
     //단방향 암호화 bcrypt
     //bcrypt 같은 경우 SHA 에 비해 공격에 강한 암호화 방식이다. hash()=> 동기 hashSync()=> 비동기
     //hash(password, salt) => salt 암호화하는데 몇번 할 것 인지
@@ -68,27 +68,36 @@ app.post('/api/Login', async (req, res)=>{
     }
 
     const pw = req.body.pw;
-    //const decode = crypto.createDecipheriv("aes-256-cbc", "Qsj23missdaxX2BjyskV6bs#adada6ds", Buffer.alloc(16,0));
     const secret_key = process.env.SECRET_KEY;
     //crypto 복호화
-    const decode = crypto.AES.decrypt(pw, "Qsj23missdaxX2BjyskV6bs&adada6ds");   
+    const decode = crypto.AES.decrypt(pw, secret_key);  
     const decrypted = decode.toString(crypto.enc.Utf8);
     const query = `select password from account where id='${req.body.id}'`;
     await connection.query(query, function(err, topics) {
-        const result_pw = bcrypt.compareSync( decrypted, topics[0].password);
-        if(result_pw){
-            res.send("로그인 성공!");
-        }
-        else
+        try{
+            const result_pw = bcrypt.compareSync( decrypted, topics[0].password);
+            
+            if(result_pw){
+                const encryptedPassword = bcrypt.hashSync(decrypted, 11);
+                //console.log(encryptedPassword);
+                //storage.setItem('access_token', encryptedPassword);
+                res.send(encryptedPassword);
+            }
+            else
+            {
+                res.send("로그인 실패!");   
+            }
+        }catch(e)
         {
-            res.send("로그인 실패!");   
+            console.log(e);
+            res.send("로그인 실패!")
         }
     });
     
 });
 
 //카카오 로그인 통신
-app.post('/api/Kakao_Login', async (req, res)=>{
+/*app.post('/api/Kakao_Login', async (req, res)=>{
     const access_token = req.body.access_token;
     const refresh_token = req.body.refresh_token;
 
@@ -105,7 +114,7 @@ app.post('/api/Kakao_Login', async (req, res)=>{
         res.send('로그인 성공');
     }
   
-});
+});*/
 
 
 //DB 연동 확인
