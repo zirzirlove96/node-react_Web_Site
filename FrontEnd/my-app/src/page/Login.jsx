@@ -13,7 +13,6 @@ function Login()
     const navigate = useNavigate();
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
-    //const secret_key = "Qsj23missdaxX2BjyskV6bs&adada6ds";
     const secret_key = process.env.REACT_APP_SECRETKEY;
 
 

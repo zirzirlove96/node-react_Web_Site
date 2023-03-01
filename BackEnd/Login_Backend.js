@@ -96,13 +96,32 @@ app.post('/api/Login', async (req, res)=>{
     
 });
 
-//카카오 로그인 통신
-/*app.post('/api/Kakao_Login', async (req, res)=>{
-    const access_token = req.body.access_token;
-    const refresh_token = req.body.refresh_token;
+//카카오 로그인 통신 
+app.post('/api/kauth', async (req, res)=>{
+    const client_id = req.body.client_id;
+    const redirect_uri = req.body.redirect_uri;
+    const kakao_code = req.body.code;
+    const client_secret = req.body.client_secret;
+    //const header = {"application/x-www-form-urlencoded;charset=utf-8"};
+
+    const options = {
+        uri:'https://kauth.kakao.com/oauth/token', 
+        method: 'POST',
+        header: 'application/x-www-form-urlencoded;charset=utf-8',
+        body: {
+            grant_type:'authorization_code',
+            client_id: client_id,
+            redirect_uri: redirect_uri,
+            code: kakao_code,
+            client_secret: client_secret
+        },
+        json:true
+    }
+    
+    request.post(options, function(err,httpResponse,body){ console.log(err); console.log(httpResponse);});
 
     //로그인을 이미 했을 경우
-    if(storage.getItem('access_token') !== undefined)
+    /*if(storage.getItem('access_token') !== undefined)
     {
         console.log(storage.getItem('access_token'));
         
@@ -112,9 +131,9 @@ app.post('/api/Login', async (req, res)=>{
         storage.setItem('access_token', access_token);
         storage.setItem('refresh_token', refresh_token);
         res.send('로그인 성공');
-    }
+    }*/
   
-});*/
+});
 
 
 //DB 연동 확인

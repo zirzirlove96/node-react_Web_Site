@@ -19,6 +19,7 @@
     "mysql": "^2.18.1",
     "navigator": "^1.0.1",
     "node-sessionstorage": "^1.0.0",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "request": "^2.88.2"
   }
 }
