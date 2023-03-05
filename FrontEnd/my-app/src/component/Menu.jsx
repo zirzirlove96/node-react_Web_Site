@@ -54,7 +54,7 @@ const Menu = () => {
             <MenuStyled>
                 <ul>
                     <li class="li1">
-                        <Link to="/Logout" className="link">로그아웃</Link>
+                        <Link to="/Login" className="link">로그인</Link>
                     </li>
                     <li class="li1">
                         <Link to="/" className="link">홈화면</Link>

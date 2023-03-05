@@ -14,7 +14,12 @@ function Login()
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
     const secret_key = process.env.REACT_APP_SECRETKEY;
+    var session = window.sessionStorage;
+    console.log(session);
 
+    if(session.account_token !== ""){
+        session.clear();
+    }
 
     const textHandler = (e) => {
         if(e.target.classList.value.includes("id"))
@@ -67,6 +72,20 @@ function Login()
         window.location.href = url;        
     }
 
+    //네이버로그인
+    const Naver_LoginProcess = async(e) => {
+
+        const url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code'+
+                    '&client_id='+
+                    process.env.REACT_APP_NAVER_CLIENT_ID+
+                    '&redirect_uri='+
+                    process.env.REACT_APP_NAVER_REDIRECT_URI+
+                    '&state=123';
+        
+        //페이지로 이동
+        window.location.href = url;        
+    }
+
     return (
         <>
             <Menu></Menu>
@@ -78,6 +97,7 @@ function Login()
                         <span id="title2">비밀번호 : </span><Input type="password" className="pw" onChange={textHandler} placeholder="PASSWORD를 입력해주세요."></Input><br/><br/>
                         <br/>
                         <BUTTON_STYLED name="Login" onClick={LoginProcess} value="Login"></BUTTON_STYLED>
+                        <IMG_STYLED src={kakao_login} onClick={Kakao_LoginProcess}></IMG_STYLED>
                         <IMG_STYLED src={kakao_login} onClick={Kakao_LoginProcess}></IMG_STYLED>                        
                     </form>
                 </div>

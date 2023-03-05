@@ -7,15 +7,18 @@ const port = "5050";
 const cors = require('cors');
 require('dotenv').config();
 const storage = require('node-sessionstorage')
+const axios = require('axios');
+const session = require('express-session'); // 모듈 추출
 
-let corsOption = {
-    origin: "http://localhost:3000",
+/*let corsOption = {
+    origin: ["http://localhost:3000" , "http://localhost:3000/Kakao_Login"],
     Credential: true
-}
+}*/
 
-app.use(cors(corsOption));    //필수!!!! 
+app.use(cors());    //필수!!!! 
 app.use(express.json())
 app.use(express.urlencoded({extended : true})) //body-parser 역할
+
 
 const DBConnection = 
 {
@@ -27,6 +30,8 @@ const DBConnection =
 };
 
 var connection = mysql.createConnection(DBConnection);
+
+var access_token = "";
 
 app.post('/api/SignUp', async (req, res)=>{
     if(req.body.id == "" || req.body.pw == "" || req.body.securityNum == "" || req.body.name == "" || req.body.address == "" || req.body.phoneNumber == "")
@@ -97,28 +102,54 @@ app.post('/api/Login', async (req, res)=>{
 });
 
 //카카오 로그인 통신 
+//새로고침하면 오류 발생하므로 새로고침하지 말고 그냥 재로그인
 app.post('/api/kauth', async (req, res)=>{
+    const grant_type = "authorization_code"
     const client_id = req.body.client_id;
     const redirect_uri = req.body.redirect_uri;
     const kakao_code = req.body.code;
     const client_secret = req.body.client_secret;
-    //const header = {"application/x-www-form-urlencoded;charset=utf-8"};
+    const app_admin_key="e9db7e06ed323f499cecb6ecf8d42aeb";
+    const url = "https://kauth.kakao.com/oauth/token";
 
-    const options = {
-        uri:'https://kauth.kakao.com/oauth/token', 
-        method: 'POST',
-        header: 'application/x-www-form-urlencoded;charset=utf-8',
-        body: {
-            grant_type:'authorization_code',
-            client_id: client_id,
-            redirect_uri: redirect_uri,
-            code: kakao_code,
-            client_secret: client_secret
-        },
-        json:true
-    }
+    await axios({
+        method: "POST",
+        url: `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${client_id}&redirect_uri=${redirect_uri}&code=${kakao_code}&client_secret=${client_secret}`,
+        headers: { "content-type" : "application/x-www-form-urlencoded; charset=utf-8"}
+    }).then(async function(response1) {
+        //console.log(res);
+        if(response1.status === 200){
+            //엑세스토큰
+            access_token = response1.data.access_token;
+
+            await axios({
+                method: "GET",
+                url: `https://kapi.kakao.com/v2/user/me`,
+                headers: {"Authorization": `Bearer ${access_token}`}
+            }).then(async function(response2) {
+                if(response2.status === 200)
+                {
+                    await axios({
+                        method: "GET",
+                        url: `https://kapi.kakao.com/v1/user/ids`,
+                        headers: {"Authorization": `KakaoAK ${app_admin_key}`}
+                    }).then(function(response3) {
+                        console.log(response2.data.id);
+                        console.log(response3.data.elements == response2.data.id);
+                        if(response2.data.id == response3.data.elements)
+                        {
+                            //console.log(req.session)
+                            res.send(bcrypt.hashSync((response2.data.id).toString(), 5));
+                        }
+                    });
+                }
+            });
+        }
+    });
+
     
-    request.post(options, function(err,httpResponse,body){ console.log(err); console.log(httpResponse);});
+
+    //const result = await axios.post(`${url}/&`)
 
     //로그인을 이미 했을 경우
     /*if(storage.getItem('access_token') !== undefined)
