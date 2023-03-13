@@ -7,6 +7,7 @@ import axios from "axios";
 import crypto from 'crypto-js';
 import { useNavigate } from "react-router-dom"; //react-router-dom은 특정 행동을 했을 때 해당 주소로 이동
 import kakao_login from "../style/kakao_login_large_narrow.png";
+import naver_login from "../style/naver_login_Icon.png";
 
 function Login()
 {
@@ -15,7 +16,6 @@ function Login()
     const [pw, setPw] = useState('');
     const secret_key = process.env.REACT_APP_SECRETKEY;
     var session = window.sessionStorage;
-    console.log(session);
 
     if(session.account_token !== ""){
         session.clear();
@@ -80,10 +80,10 @@ function Login()
                     process.env.REACT_APP_NAVER_CLIENT_ID+
                     '&redirect_uri='+
                     process.env.REACT_APP_NAVER_REDIRECT_URI+
-                    '&state=123';
+                    '&state=jiyoung123';
         
         //페이지로 이동
-        window.location.href = url;        
+        window.location.href = url;
     }
 
     return (
@@ -98,7 +98,7 @@ function Login()
                         <br/>
                         <BUTTON_STYLED name="Login" onClick={LoginProcess} value="Login"></BUTTON_STYLED>
                         <IMG_STYLED src={kakao_login} onClick={Kakao_LoginProcess}></IMG_STYLED>
-                        <IMG_STYLED src={kakao_login} onClick={Kakao_LoginProcess}></IMG_STYLED>                        
+                        <IMG_STYLED2 src={naver_login} onClick={Naver_LoginProcess}></IMG_STYLED2>                        
                     </form>
                 </div>
             </div>
@@ -117,6 +117,13 @@ const IMG_STYLED = styled.img`
     width: 200px;
     margin-left: 230px;
     margin-top: 80px;
+    position: absolute;
+`;
+
+const IMG_STYLED2 = styled.img`
+    width: 80px;
+    margin-left: 140px;
+    margin-top: 70px;
     position: absolute;
 `;
 export default Login;

@@ -146,24 +146,24 @@ app.post('/api/kauth', async (req, res)=>{
             });
         }
     });
-
-    
-
-    //const result = await axios.post(`${url}/&`)
-
-    //로그인을 이미 했을 경우
-    /*if(storage.getItem('access_token') !== undefined)
-    {
-        console.log(storage.getItem('access_token'));
-        
-    }
-    else
-    {
-        storage.setItem('access_token', access_token);
-        storage.setItem('refresh_token', refresh_token);
-        res.send('로그인 성공');
-    }*/
   
+});
+
+app.post("/api/Nauth", async (req, res)=> {
+    const client_id = req.body.client_id;
+    const redirect_uri = req.body.redirect_uri;
+    const code = req.body.code;
+    const client_secret = req.body.client_secret;
+
+    console.log("123123");
+
+    axios.post({
+        method: "POST",
+        url: `${redirect_uri}/redirect?code=${code}`,
+        headers: { "content-type" : "application/x-www-form-urlencoded; charset=utf-8"}
+    }).then(async function(response1) {
+        console.log(response1);
+    });
 });
 
 
