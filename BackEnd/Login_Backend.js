@@ -173,7 +173,6 @@ app.post("/api/Nauth", async (req, res)=> {
                 url : "https://openapi.naver.com/v1/nid/me",
                 headers: {"Authorization" : `Bearer ${access_token}`}
             }).then(function (response2){
-                console.log(response2);
                 if(response2.data.resultcode === "00"){
                     console.log(response2.data.response.id);
                     res.send(bcrypt.hashSync((response2.data.response.id).toString(), 5));
