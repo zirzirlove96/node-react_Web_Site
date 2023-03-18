@@ -149,20 +149,37 @@ app.post('/api/kauth', async (req, res)=>{
   
 });
 
+//네이버 로그인
 app.post("/api/Nauth", async (req, res)=> {
     const client_id = req.body.client_id;
     const redirect_uri = req.body.redirect_uri;
     const code = req.body.code;
     const client_secret = req.body.client_secret;
+    var access_token = "";
 
-    console.log("123123");
 
-    axios.post({
+    axios({
         method: "POST",
-        url: `${redirect_uri}/redirect?code=${code}`,
-        headers: { "content-type" : "application/x-www-form-urlencoded; charset=utf-8"}
-    }).then(async function(response1) {
-        console.log(response1);
+        url : `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${client_id}&client_secret=${client_secret}&code=${code}`,
+    }).then(async function(response1){
+        console.log(response1.data.access_token);
+        if(response1.data.access_token != "")
+        {
+            //네이버 엑세스 토큰 
+            access_token = response1.data.access_token;
+
+            await axios({
+                method: "POST",
+                url : "https://openapi.naver.com/v1/nid/me",
+                headers: {"Authorization" : `Bearer ${access_token}`}
+            }).then(function (response2){
+                console.log(response2);
+                if(response2.data.resultcode === "00"){
+                    console.log(response2.data.response.id);
+                    res.send(bcrypt.hashSync((response2.data.response.id).toString(), 5));
+                }
+            });
+        }
     });
 });
 
