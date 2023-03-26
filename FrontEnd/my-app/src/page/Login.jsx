@@ -8,6 +8,8 @@ import crypto from 'crypto-js';
 import { useNavigate } from "react-router-dom"; //react-router-dom은 특정 행동을 했을 때 해당 주소로 이동
 import kakao_login from "../style/kakao_login_large_narrow.png";
 import naver_login from "../style/naver_login_Icon.png";
+import google_login from "../style/btn_google_signin_dark_pressed_web.png";
+import {GoogleLogin, GoogleOAuthProvider} from "@react-oauth/google";
 
 function Login()
 {
@@ -86,6 +88,21 @@ function Login()
         window.location.href = url;
     }
 
+    //네이버로그인
+    const Google_LoginProcess = async(e) => {
+        const url = 'https://accounts.google.com/o/oauth2/v2/auth?'+
+                    '&scope=https://www.googleapis.com/auth/userinfo.email'+
+                    '&response_type=code'+
+                    '&client_id='+
+                    process.env.REACT_APP_GOOGLE_CLIENT_ID+
+                    '&redirect_uri='+
+                    process.env.REACT_APP_GOOGLE_REDIRECT_URI+
+                    '&state=jiyoung123';
+        
+        //페이지로 이동
+        window.location.href = url;
+    }
+
     return (
         <>
             <Menu></Menu>
@@ -98,7 +115,11 @@ function Login()
                         <br/>
                         <BUTTON_STYLED name="Login" onClick={LoginProcess} value="Login"></BUTTON_STYLED>
                         <IMG_STYLED src={kakao_login} onClick={Kakao_LoginProcess}></IMG_STYLED>
-                        <IMG_STYLED2 src={naver_login} onClick={Naver_LoginProcess}></IMG_STYLED2>                        
+                        <IMG_STYLED2 src={naver_login} onClick={Naver_LoginProcess}></IMG_STYLED2>
+                        {/* <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+                            <GoogleLogin onSuccess={(res)=>{console.log(res);}}></GoogleLogin>
+                        </GoogleOAuthProvider>             */}
+                        <IMG_STYLED3 src={google_login} onClick={Google_LoginProcess}></IMG_STYLED3>
                     </form>
                 </div>
             </div>
@@ -124,6 +145,13 @@ const IMG_STYLED2 = styled.img`
     width: 80px;
     margin-left: 140px;
     margin-top: 70px;
+    position: absolute;
+`;
+
+const IMG_STYLED3 = styled.img`
+    width: 100px;
+    margin-left: 450px;
+    margin-top: 100px;
     position: absolute;
 `;
 export default Login;
